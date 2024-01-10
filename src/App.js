@@ -1,21 +1,23 @@
 import React, { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
-import { type } from "@testing-library/user-event/dist/type";
+import Loader from "./Loader";
+import Error from "./Error";
+import StartScreen from "./StartScreen";
 /*
  npx json-server questions.json
 */
 const initialState = {
   questions: [],
   //"Loading","error","ready","active","finished"
-  status: "Loading",
+  status: "loading",
 };
 function reducer(state, action) {
   switch (action.type) {
     case "dataReceived":
       return {
         ...state,
-        question: action.payload,
+        questions: action.payload,
         status: "ready",
       };
     case "dataFailed":
@@ -28,7 +30,10 @@ function reducer(state, action) {
   }
 }
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+
+  const numQuestions = questions.length;
+
   useEffect(function () {
     fetch("http://localhost:3000/questions")
       .then((res) => res.json())
@@ -41,8 +46,9 @@ const App = () => {
       <Header />
 
       <Main>
-        <p>1/15</p>
-        <p>Question?</p>
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error />}
+        {status === "ready" && <StartScreen numQuestions={numQuestions} />}
       </Main>
     </div>
   );
