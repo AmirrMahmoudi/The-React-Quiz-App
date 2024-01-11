@@ -3,7 +3,6 @@ import React from "react";
 const NextButton = ({ dispatch, answer, index, numQuestions }) => {
   if (answer === null) return null;
 
-  //   if (index < numQuestions - 1)
   return (
     <>
       {index < numQuestions - 1 && (
@@ -13,7 +12,7 @@ const NextButton = ({ dispatch, answer, index, numQuestions }) => {
         >
           Next
         </button>
-      )}{" "}
+      )}
       {index === numQuestions - 1 && (
         <button
           className="btn btn-ui"
