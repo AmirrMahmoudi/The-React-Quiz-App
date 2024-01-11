@@ -1,5 +1,5 @@
 import React from "react";
-import Options from "./Options";
+import {Options} from "./";
 const Question = ({ question, dispatch, answer }) => {
 
   return (
